@@ -927,16 +927,13 @@ AC_CACHE_SAVE
 # Libevent
 ##################################
 
-prte_show_title "Configure libevent"
+prte_show_title "Configure libevent/libev"
 
-PRTE_LIBEV_CONFIG
 PRTE_LIBEVENT_CONFIG
 
-AS_IF([test $prte_libevent_support -eq 1 && test $prte_libev_support -eq 1],
-      [AC_MSG_WARN([Both libevent and libev support have been specified.])
-       AC_MSG_WARN([Only one can be configured against at a time. Please])
-       AC_MSG_WARN([remove one from the configure command line.])
-       AC_MSG_ERROR([Cannot continue])])
+# If libevent was not found look for libev
+AS_IF([test $prte_libevent_support],
+      [PRTE_LIBEV_CONFIG])
 
 AS_IF([test $prte_libevent_support -eq 0 && test $prte_libev_support -eq 0],
       [AC_MSG_WARN([Either libevent or libev support is required, but neither])
